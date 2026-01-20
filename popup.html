@@ -1,0 +1,234 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Password Manager v0.1</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+
+  <style>
+    :root{
+      --bg: #ffffff;
+      --card: #f7f7f8;
+      --muted: #6b6b6b;
+      --accent: #5b8def;
+      --danger: #e04f5f;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    }
+
+    body{
+      margin:0;
+      padding:14px;
+      width:340px;
+      background:var(--bg);
+      color:#111;
+      box-sizing:border-box;
+    }
+
+    h3{
+      margin:0 0 12px 0;
+      font-size:16px;
+    }
+
+    input{
+      width:100%;
+      padding:10px 12px;
+      border:1px solid #ddd;
+      border-radius:8px;
+      font-size:13px;
+      box-sizing:border-box;
+    }
+
+    button{
+      background:var(--accent);
+      color:white;
+      border:none;
+      padding:9px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      font-size:13px;
+    }
+
+    button.secondary{
+      background:transparent;
+      color:var(--accent);
+      border:1px solid #dbe9ff;
+    }
+
+    .small-muted{
+      font-size:12px;
+      color:#888;
+      margin-top:8px;
+    }
+
+    hr{
+      border:0;
+      height:1px;
+      background:#eee;
+      margin:12px 0;
+    }
+
+    /* ===== AUTH SCREEN ===== */
+    #auth{
+      display:block;
+    }
+
+    /* ===== MAIN APP ===== */
+    #app{
+      display:none;
+    }
+
+    .row-space{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+
+    .controls{
+      display:flex;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .form-row{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .btn-ghost{
+      background:transparent;
+      border:1px solid #ddd;
+      color:#333;
+      padding:6px 8px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    .btn-danger{
+      border:1px solid var(--danger);
+      color:var(--danger);
+    }
+
+    /* list */
+    .entry{
+      background:var(--card);
+      padding:10px;
+      border-radius:10px;
+      display:flex;
+      gap:10px;
+      margin-bottom:8px;
+    }
+
+    .avatar{
+      width:40px;
+      height:40px;
+      border-radius:8px;
+      background:#e9eefc;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:700;
+      color:var(--accent);
+    }
+
+    .entry-body{ flex:1; }
+
+    .site{ font-weight:700; font-size:13px; }
+    .username{ font-size:12px; color:#666; margin-top:4px; }
+
+    .pw-row{
+      display:flex;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .entry-actions{
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+    }
+
+    .toast{
+      position:fixed;
+      right:16px;
+      bottom:16px;
+      background:#111;
+      color:#fff;
+      padding:8px 12px;
+      border-radius:8px;
+      opacity:0;
+      transform:translateY(8px);
+      transition:.2s;
+      font-size:13px;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- 🔐 AUTH SCREEN -->
+<div id="auth">
+  <h3>Set Master Password</h3>
+
+  <input
+    id="masterPassword"
+    type="password"
+    placeholder="Master password"
+  />
+
+  <div style="height:8px"></div>
+
+  <button id="authBtn">Continue</button>
+
+  <p class="small-muted">
+    This password encrypts all saved credentials.<br>
+    Do NOT forget it.
+  </p>
+</div>
+
+<!-- 🔓 MAIN APP -->
+<div id="app">
+
+  <div class="row-space">
+    <h3>Passwords</h3>
+    <button id="generateBtn" class="secondary">Generate</button>
+  </div>
+
+  <input id="site" placeholder="site (e.g. example.com)" />
+  <div style="height:8px"></div>
+
+  <input id="username" placeholder="username / email" />
+  <div style="height:8px"></div>
+
+  <div class="form-row">
+    <input id="password" type="password" placeholder="password" />
+    <button id="revealBtn" class="btn-ghost">👁️</button>
+  </div>
+
+  <div class="controls">
+    <button id="addBtn">Store</button>
+    <button id="clearBtn" class="secondary">Clear</button>
+  </div>
+
+  <p class="small-muted">
+    Passwords are stored locally.
+  </p>
+
+  <hr/>
+
+  <div id="list"></div>
+
+</div>
+
+<div id="toast" class="toast">Saved</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
